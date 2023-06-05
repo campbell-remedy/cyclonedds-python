@@ -673,7 +673,7 @@ class PlainCdrV2ArrayOfPrimitiveMachine(Machine):
     def serialize(self, buffer, value, for_key=False):
         assert len(value) == self.length
         buffer.align(self.alignment)
-        buffer.write_multi(self.code, self.size, *value)
+        buffer.write_multi(self.code, self.size, value)
 
     def deserialize(self, buffer):
         buffer.align(self.alignment)
@@ -703,7 +703,7 @@ class PlainCdrV2SequenceOfPrimitiveMachine(Machine):
         buffer.write('I', 4, len(value))
         if value:
             buffer.align(self.alignment)
-            buffer.write_multi(f"{len(value)}{self.code}", self.size * len(value), *value)
+            buffer.write_multi(f"{len(value)}{self.code}", self.size * len(value), value)
 
     def deserialize(self, buffer):
         buffer.align(4)

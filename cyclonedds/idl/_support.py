@@ -10,6 +10,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 """
 
+import array
 import sys
 import struct
 
@@ -122,9 +123,9 @@ class Buffer:
         self._pos += length
         return self
 
-    def write_multi(self, pack: str, size: int, *values: Any) -> 'Buffer':
+    def write_multi(self, pack: str, size: int, values: Any) -> 'Buffer':
         self.ensure_size(size)
-        struct.pack_into(self._endian + pack, self._bytes, self._pos, *values)
+        self._bytes[self._pos:self._pos + size] = array.array(pack[-1], values)
         self._pos += size
         return self
 
